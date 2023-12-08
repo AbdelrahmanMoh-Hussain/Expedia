@@ -37,6 +37,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -44,7 +45,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Expedia.Properties.Resources.user;
-            this.pictureBox1.Location = new System.Drawing.Point(218, 115);
+            this.pictureBox1.Location = new System.Drawing.Point(216, 23);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(143, 127);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -55,7 +56,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Maiandra GD", 13.84615F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(332, 290);
+            this.label1.Location = new System.Drawing.Point(330, 198);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 30);
             this.label1.TabIndex = 3;
@@ -65,7 +66,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Maiandra GD", 13.84615F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(332, 337);
+            this.label2.Location = new System.Drawing.Point(330, 245);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 30);
             this.label2.TabIndex = 3;
@@ -75,7 +76,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Maiandra GD", 13.84615F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(332, 389);
+            this.label3.Location = new System.Drawing.Point(330, 297);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 30);
             this.label3.TabIndex = 3;
@@ -85,7 +86,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Maiandra GD", 13.84615F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(149, 290);
+            this.label5.Location = new System.Drawing.Point(147, 198);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(82, 30);
             this.label5.TabIndex = 3;
@@ -95,7 +96,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Maiandra GD", 13.84615F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(149, 337);
+            this.label6.Location = new System.Drawing.Point(147, 245);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(143, 30);
             this.label6.TabIndex = 3;
@@ -105,7 +106,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Maiandra GD", 13.84615F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(149, 389);
+            this.label7.Location = new System.Drawing.Point(147, 297);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(124, 30);
             this.label7.TabIndex = 3;
@@ -133,12 +134,21 @@
             this.label8.Text = "Back";
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(3, 334);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(555, 265);
+            this.richTextBox1.TabIndex = 7;
+            this.richTextBox1.Text = "";
+            // 
             // ProfileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(563, 611);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label7);
@@ -171,5 +181,6 @@
         private Label label7;
         private PictureBox pictureBox2;
         private Label label8;
+        private RichTextBox richTextBox1;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Expedia.Business_Layer;
+﻿using Expedia.Entities;
 using Expedia.Data_Access_Layer;
 using System;
 using System.Collections.Generic;
@@ -10,13 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Expedia.Data;
 
 namespace Expedia.Presentation_Layer
 {
     public partial class CheckOutForm : Form
     {
         public Customer customer;
-        public List<Itinerary> selectedReservations = new List<Itinerary>();
+        public List<Reservation> selectedReservations = new List<Reservation>();
 
         public CheckOutForm()
         {
@@ -25,11 +26,26 @@ namespace Expedia.Presentation_Layer
 
         private void CheckOutForm_Load(object sender, EventArgs e)
         {
-            DataAccessor dataAccessor = new DataAccessor();
-            SqlParameter[] parameters = new SqlParameter[1];
-            parameters[0] = new SqlParameter("Id",  customer.Id);
-            DataTable dt = dataAccessor.Read("LoadBankCards", parameters);
-            dataGridView1.DataSource = dt;
+            //DataAccessor dataAccessor = new DataAccessor();
+            //SqlParameter[] parameters = new SqlParameter[1];
+            //parameters[0] = new SqlParameter("Id",  customer.Id);
+            //DataTable dt = dataAccessor.Read("LoadBankCards", parameters);
+            //dataGridView1.DataSource = dt;
+            using(var context = new AppDbContext())
+            {
+                var quary = from b in context.BankCards
+                            where b.CustomerId == customer.Id
+                            select new
+                            {
+                                customer.Name,
+                                b.CardNumber,
+                                b.Company,
+                                b.Type,
+                                b.ExpireDate,
+                                b.Balance
+                            };
+                dataGridView1.DataSource = quary.ToList();
+            }
             
             foreach(var reservation in selectedReservations.Select(x => x.ToString()))
             {
@@ -68,16 +84,32 @@ namespace Expedia.Presentation_Layer
                 balance -= totalCost;
                 balance_label.Text = $"Balance: $ {balance}";
 
-                DataAccessor dataAccessor = new DataAccessor();
-                SqlParameter[] parameters = new SqlParameter[3];
-                parameters[0] = new SqlParameter("cardNumber", num.Text);
-                parameters[1] = new SqlParameter("company", company.Text);
-                parameters[2] = new SqlParameter("balance", balance.ToString());
+                //DataAccessor dataAccessor = new DataAccessor();
+                //SqlParameter[] parameters = new SqlParameter[3];
+                //parameters[0] = new SqlParameter("cardNumber", num.Text);
+                //parameters[1] = new SqlParameter("company", company.Text);
+                //parameters[2] = new SqlParameter("balance", balance.ToString());
                 
 
-                dataAccessor.Open();
-                dataAccessor.Execute("EditBankCardBalance", parameters);
-                dataAccessor.Close();
+                //dataAccessor.Open();
+                //dataAccessor.Execute("EditBankCardBalance", parameters);
+                //dataAccessor.Close();
+
+                using (var context = new AppDbContext())
+                {
+                    var bankCard = context.BankCards.Single(x => x.CardNumber == num.Text && x.Company == company.Text);
+                    bankCard.Balance = balance;
+
+                    foreach(var reservation in selectedReservations)
+                    {
+                        context.Attach(reservation);
+                        reservation.CustomerId = customer.Id;
+                    }
+
+                    context.SaveChanges();
+
+                    selectedReservations.Clear();
+                }
             }
         }
 
@@ -128,12 +160,46 @@ namespace Expedia.Presentation_Layer
             cardForm.Show();
             this.FormClosed += (s, arg) => cardForm.Close();
 
-            DataAccessor dataAccessor = new DataAccessor();
-            SqlParameter[] parameters = new SqlParameter[1];
-            parameters[0] = new SqlParameter("Id", customer.Id);
-            DataTable dt = dataAccessor.Read("LoadBankCards", parameters);
-            dataGridView1.DataSource = dt;
+            //DataAccessor dataAccessor = new DataAccessor();
+            //SqlParameter[] parameters = new SqlParameter[1];
+            //parameters[0] = new SqlParameter("Id", customer.Id);
+            //DataTable dt = dataAccessor.Read("LoadBankCards", parameters);
+            //dataGridView1.DataSource = dt;
+            using (var context = new AppDbContext())
+            {
+                var quary = from b in context.BankCards
+                            where b.CustomerId == customer.Id
+                            select new
+                            {
+                                customer.Name,
+                                b.CardNumber,
+                                b.Company,
+                                b.Type,
+                                b.ExpireDate,
+                                b.Balance
+                            };
+                dataGridView1.DataSource = quary.ToList();
+            }
 
+        }
+
+        private void CheckOutForm_Activated(object sender, EventArgs e)
+        {
+            using (var context = new AppDbContext())
+            {
+                var quary = from b in context.BankCards
+                            where b.CustomerId == customer.Id
+                            select new
+                            {
+                                customer.Name,
+                                b.CardNumber,
+                                b.Company,
+                                b.Type,
+                                b.ExpireDate,
+                                b.Balance
+                            };
+                dataGridView1.DataSource = quary.ToList();
+            }
         }
     }
 }

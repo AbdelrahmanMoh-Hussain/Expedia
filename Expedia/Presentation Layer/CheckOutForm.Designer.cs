@@ -201,6 +201,7 @@
             this.Name = "CheckOutForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CheckOutForm";
+            this.Activated += new System.EventHandler(this.CheckOutForm_Activated);
             this.Load += new System.EventHandler(this.CheckOutForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

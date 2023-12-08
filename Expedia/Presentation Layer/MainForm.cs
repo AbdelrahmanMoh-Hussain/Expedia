@@ -1,4 +1,4 @@
-﻿using Expedia.Business_Layer;
+﻿using Expedia.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

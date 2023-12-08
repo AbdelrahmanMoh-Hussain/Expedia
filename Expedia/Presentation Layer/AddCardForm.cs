@@ -1,4 +1,5 @@
-﻿using Expedia.Business_Layer;
+﻿using Expedia.Data;
+using Expedia.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,7 @@ namespace Expedia.Presentation_Layer
             var type = comboBox1.SelectedItem.ToString();
             var date = dateTimePicker1.Value;
             var number = textBox2.Text;
-            var balance = textBox1.Text;
+            var balance = Convert.ToDecimal(textBox1.Text);
 
             if(number.Length < 14)
             {
@@ -39,17 +40,31 @@ namespace Expedia.Presentation_Layer
             else
             {
                 MessageBox.Show("Card Added succesfully");
-                Data_Access_Layer.DataAccessor dataAccessor = new Data_Access_Layer.DataAccessor();
-                SqlParameter[] parameters = new SqlParameter[6];
-                parameters[0] = new SqlParameter("cardNumber", number);
-                parameters[1] = new SqlParameter("type", type);
-                parameters[2] = new SqlParameter("company", company);
-                parameters[3] = new SqlParameter("expiredDate", date);
-                parameters[4] = new SqlParameter("customerId", customer.Id);
-                parameters[5] = new SqlParameter("balance", balance);
-                dataAccessor.Open();
-                dataAccessor.Execute("AddBankCard", parameters);
-                dataAccessor.Close();
+                //Data_Access_Layer.DataAccessor dataAccessor = new Data_Access_Layer.DataAccessor();
+                //SqlParameter[] parameters = new SqlParameter[6];
+                //parameters[0] = new SqlParameter("cardNumber", number);
+                //parameters[1] = new SqlParameter("type", type);
+                //parameters[2] = new SqlParameter("company", company);
+                //parameters[3] = new SqlParameter("expiredDate", date);
+                //parameters[4] = new SqlParameter("customerId", customer.Id);
+                //parameters[5] = new SqlParameter("balance", balance);
+                //dataAccessor.Open();
+                //dataAccessor.Execute("AddBankCard", parameters);
+                //dataAccessor.Close();
+                using (var context = new AppDbContext())
+                {
+                    var bankCard = new BankCard
+                    {
+                        CardNumber = number,
+                        Company = company,
+                        Type = type == "Debit"? Enums.BankCardType.Debit: (type == "Credit"? Enums.BankCardType.Credit: Enums.BankCardType.Virtual),
+                        ExpireDate = date,
+                        Balance = balance,
+                        CustomerId = customer.Id,
+                    };
+                    context.BankCards.Add(bankCard);
+                    context.SaveChanges();
+                }
                 Hide();
             }
         }

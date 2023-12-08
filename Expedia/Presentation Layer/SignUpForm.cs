@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Expedia.Data;
+using Expedia.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,19 +34,27 @@ namespace Expedia.Presentation_Layer
         {
             if(password_txtbox.Text.Equals(confirmPassword_txtbox.Text, StringComparison.OrdinalIgnoreCase))
             {
-                Data_Access_Layer.DataAccessor dataAccessor = new Data_Access_Layer.DataAccessor();
-                SqlParameter[] parameters = new SqlParameter[3];
-                parameters[0] = new SqlParameter("name", name_txtbox.Text);
-                parameters[1] = new SqlParameter("userName", userName_txtbox.Text);
-                parameters[2] = new SqlParameter("password", password_txtbox.Text);
-                dataAccessor.Open();
-                dataAccessor.Execute("AddCustomer", parameters);
-                dataAccessor.Close();
+                using(var context = new AppDbContext())
+                {
+                    var id = (context.Customers.OrderBy(x => x.Id).Last().Id + 1);
+                    var customer = new Customer
+                    {
+                        Id = id,
+                        Name = name_txtbox.Text,
+                        UserName = userName_txtbox.Text,
+                        Password = password_txtbox.Text,
+                    };
+                    context.Customers.Add(customer);
+                    context.SaveChanges();
+                }
 
                 Presentation_Layer.MainForm mainForm = new MainForm();
                 Hide();
                 mainForm.FormClosed += (s, args) => this.Close();
-                mainForm.customer = new Business_Layer.Customer(++lastCustomerId, name_txtbox.Text, userName_txtbox.Text, password_txtbox.Text);
+                using (var context = new AppDbContext())
+                {
+                    mainForm.customer = context.Customers.OrderBy(x => x.Id).Last();
+                }
                 mainForm.Show();
             }
             else

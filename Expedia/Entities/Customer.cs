@@ -6,22 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Expedia.Business_Layer
+namespace Expedia.Entities
 {
     public class Customer
     {
-        public Customer(int id, string name, string userName, string password)
-        {
-            Id = id;
-            Name = name;
-            UserName = userName;
-            Password = password;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public List<Reservation>? Reservations { get; set; }
+
+        public List<BankCard>? BankCards { get; set; }
 
     }
 }
