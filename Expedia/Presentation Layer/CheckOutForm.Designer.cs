@@ -82,7 +82,6 @@
             this.status_label.Size = new System.Drawing.Size(0, 30);
             this.status_label.TabIndex = 7;
             this.status_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.status_label.Click += new System.EventHandler(this.status_label_Click);
             // 
             // reservations
             // 
@@ -94,7 +93,6 @@
             this.reservations.Size = new System.Drawing.Size(170, 30);
             this.reservations.TabIndex = 7;
             this.reservations.Text = "Reservastions";
-            this.reservations.Click += new System.EventHandler(this.reservations_Click);
             // 
             // richTextBox1
             // 
@@ -112,7 +110,6 @@
             this.type.Name = "type";
             this.type.Size = new System.Drawing.Size(0, 30);
             this.type.TabIndex = 7;
-            this.type.Click += new System.EventHandler(this.type_Click);
             // 
             // balance_label
             // 
@@ -123,7 +120,6 @@
             this.balance_label.Size = new System.Drawing.Size(0, 30);
             this.balance_label.TabIndex = 7;
             this.balance_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.balance_label.Click += new System.EventHandler(this.balance_label_Click);
             // 
             // company
             // 
@@ -133,7 +129,6 @@
             this.company.Name = "company";
             this.company.Size = new System.Drawing.Size(0, 30);
             this.company.TabIndex = 7;
-            this.company.Click += new System.EventHandler(this.company_Click);
             // 
             // num
             // 
@@ -144,7 +139,6 @@
             this.num.Size = new System.Drawing.Size(0, 30);
             this.num.TabIndex = 7;
             this.num.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.num.Click += new System.EventHandler(this.num_Click);
             // 
             // label8
             // 

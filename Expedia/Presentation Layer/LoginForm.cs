@@ -1,8 +1,5 @@
 ﻿using Expedia.Entities;
-using Expedia.Data_Access_Layer;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -17,26 +14,21 @@ namespace Expedia.Presentation_Layer
 {
     public partial class LoginForm : Form
     {
-        private DataTable dt;
-        DataAccessor dataAccessor = new DataAccessor();
         public LoginForm()
         {
             InitializeComponent();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-            SqlParameter[] parameters = null;
-            dt = dataAccessor.Read("LoadCustomers", parameters);
-        }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Presentation_Layer.SignUpForm sighupForm = new SignUpForm();
             Hide();
             sighupForm.FormClosed += (s, args) => this.Close();
-            sighupForm.lastCustomerId = Convert.ToInt32(dt.Rows[dt.Rows.Count - 1]["Id"]);
-            sighupForm.Show();
+            using (var context = new AppDbContext()) {
+                sighupForm.lastCustomerId = context.Customers.OrderBy(x => x.Id).Last().Id;
+            }
+             sighupForm.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)

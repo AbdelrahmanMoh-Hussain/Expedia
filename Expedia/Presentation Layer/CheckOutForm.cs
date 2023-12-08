@@ -1,5 +1,4 @@
 ﻿using Expedia.Entities;
-using Expedia.Data_Access_Layer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,11 +25,6 @@ namespace Expedia.Presentation_Layer
 
         private void CheckOutForm_Load(object sender, EventArgs e)
         {
-            //DataAccessor dataAccessor = new DataAccessor();
-            //SqlParameter[] parameters = new SqlParameter[1];
-            //parameters[0] = new SqlParameter("Id",  customer.Id);
-            //DataTable dt = dataAccessor.Read("LoadBankCards", parameters);
-            //dataGridView1.DataSource = dt;
             using(var context = new AppDbContext())
             {
                 var quary = from b in context.BankCards
@@ -53,6 +47,15 @@ namespace Expedia.Presentation_Layer
             }
             richTextBox1.Text += "\n---------------------\n";
             richTextBox1.Text += $"Total Cost: {selectedReservations.Sum(x => x.Cost)}";
+
+            var cardCompany = dataGridView1.Rows[0].Cells["Company"].Value.ToString();
+            var cardType = dataGridView1.Rows[0].Cells["Type"].Value.ToString();
+            var cardNum = dataGridView1.Rows[0].Cells["CardNumber"].Value.ToString();
+            var balance = dataGridView1.Rows[0].Cells["Balance"].Value.ToString();
+            company.Text = cardCompany;
+            type.Text = $"- {cardType} Card";
+            num.Text = cardNum;
+            balance_label.Text = $"Balance: $ {balance}";
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -84,17 +87,6 @@ namespace Expedia.Presentation_Layer
                 balance -= totalCost;
                 balance_label.Text = $"Balance: $ {balance}";
 
-                //DataAccessor dataAccessor = new DataAccessor();
-                //SqlParameter[] parameters = new SqlParameter[3];
-                //parameters[0] = new SqlParameter("cardNumber", num.Text);
-                //parameters[1] = new SqlParameter("company", company.Text);
-                //parameters[2] = new SqlParameter("balance", balance.ToString());
-                
-
-                //dataAccessor.Open();
-                //dataAccessor.Execute("EditBankCardBalance", parameters);
-                //dataAccessor.Close();
-
                 using (var context = new AppDbContext())
                 {
                     var bankCard = context.BankCards.Single(x => x.CardNumber == num.Text && x.Company == company.Text);
@@ -113,35 +105,6 @@ namespace Expedia.Presentation_Layer
             }
         }
 
-        private void status_label_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void type_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void num_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void company_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void reservations_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void balance_label_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -159,28 +122,6 @@ namespace Expedia.Presentation_Layer
             cardForm.customer = this.customer;
             cardForm.Show();
             this.FormClosed += (s, arg) => cardForm.Close();
-
-            //DataAccessor dataAccessor = new DataAccessor();
-            //SqlParameter[] parameters = new SqlParameter[1];
-            //parameters[0] = new SqlParameter("Id", customer.Id);
-            //DataTable dt = dataAccessor.Read("LoadBankCards", parameters);
-            //dataGridView1.DataSource = dt;
-            using (var context = new AppDbContext())
-            {
-                var quary = from b in context.BankCards
-                            where b.CustomerId == customer.Id
-                            select new
-                            {
-                                customer.Name,
-                                b.CardNumber,
-                                b.Company,
-                                b.Type,
-                                b.ExpireDate,
-                                b.Balance
-                            };
-                dataGridView1.DataSource = quary.ToList();
-            }
-
         }
 
         private void CheckOutForm_Activated(object sender, EventArgs e)
